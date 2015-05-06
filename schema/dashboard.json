@@ -1,0 +1,175 @@
+{
+  "id": "/Dashboard",
+  "type": "object",
+  "properties": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "maxLength": 90,
+      "pattern": "^[-a-z0-9]+$"
+    },
+    "dashboard-type": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "transaction",
+        "high-volume-transaction",
+        "service-group",
+        "content",
+        "other"
+      ]
+    },
+    "page-type": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "dashboard",
+        "browse"
+      ]
+    },
+    "published": {
+      "type": "boolean",
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 256
+    },
+    "description": {
+      "type": "string",
+      "required": false,
+      "maxLength": 500
+    },
+    "description-extra": {
+      "type": "string",
+      "required": false,
+      "maxLength": 400
+    },
+    "costs": {
+      "type": "string",
+      "required": false,
+      "maxLength": 1500
+    },
+    "other-notes": {
+      "type": "string",
+      "required": false,
+      "maxLength": 1000
+    },
+    "customer-type": {
+      "type": "string",
+      "required": false,
+      "oneOf": [
+        {
+          "enum": [
+            "",
+            "Business",
+            "Individuals",
+            "Charity",
+            "Business and individuals"
+          ]
+        }
+      ]
+    },
+    "business-model": {
+      "type": "string",
+      "required": false,
+      "oneOf": [
+        {
+          "enum": [
+            "",
+            "Department budget",
+            "Fees and charges",
+            "Taxpayers",
+            "Fees and charges, and taxpayers"
+          ]
+        }
+      ]
+    },
+    "department": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "abbr": { "type": "string" }
+      }
+    },
+    "agency": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "abbr": { "type": "string" }
+      }
+    },
+    "relatedPages": {
+      "type": "object",
+      "properties": {
+        "transaction": {
+          "items": {
+            "$ref": "#/definitions/link"
+          }
+        },
+        "improve-dashboard-message": {
+          "type": "boolean"
+        },
+        "other": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/link"
+          }
+        }
+      }
+    },
+    "strapline": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "Dashboard",
+        "Service dashboard",
+        "Content dashboard",
+        "Performance",
+        "Policy dashboard",
+        "Public sector purchasing dashboard",
+        "Topic Explorer",
+        "Service Explorer"
+      ]
+    },
+    "tagline": {
+      "type": "string",
+      "required": false,
+      "maxLength": 400
+    },
+    "modules": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object"
+      },
+      "uniqueItems": true
+    }
+  },
+  "definitions": {
+    "link": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "required": true,
+          "maxLength": 90
+        },
+        "url": {
+          "type": "string",
+          "required": true,
+          "format": "uri"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "transaction",
+            "other",
+            "improve-dashboard-message"
+          ]
+        }
+      }
+    }
+  }
+}
