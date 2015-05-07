@@ -3,6 +3,7 @@ var validator = require('is-my-json-valid');
 var validateDashboard = validator(require('../schema/dashboard.json'));
 var Q = require('q');
 var failed = false;
+var knownSchemas = {'kpi': true};
 
 Dashboard.getAllSlugs().then(function (listOfSlugs) {
   var allDashboards = [];
@@ -18,6 +19,7 @@ Dashboard.getAllSlugs().then(function (listOfSlugs) {
       if (result.state === 'fulfilled') {
         var dashboard = result.value;
         var valid = validateDashboard(dashboard);
+        validateModules(dashboard);
 
         if (valid === false) {
           console.log('Schema validation failed for (', dashboard.slug, ')');
@@ -34,3 +36,20 @@ Dashboard.getAllSlugs().then(function (listOfSlugs) {
     }
   });
 });
+
+function validateModules (dashboard) {
+  var modules = dashboard.modules;
+  modules.forEach(function (module) {
+    var moduleType = module['module-type'];
+    if (knownSchemas[moduleType]) {
+      var validateModule = validator(require('../schema/modules/' + moduleType + '.json'));
+      var valid = validateModule(module);
+
+      if (valid === false) {
+        console.log('Schema validation failed for (', dashboard.slug + '/' + module.slug, ')');
+        console.log(validateModule.errors);
+        failed = true;
+      }
+    }
+  });
+}

@@ -1,6 +1,7 @@
 {
   "id": "/Dashboard",
   "type": "object",
+  "additionalProperties": false,
   "properties": {
     "slug": {
       "type": "string",

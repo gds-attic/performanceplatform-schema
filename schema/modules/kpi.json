@@ -1,0 +1,178 @@
+{
+  "id": "/KPI",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "maxLength": 60,
+      "pattern": "^[-a-z0-9]+$"
+    },
+    "module-type": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "kpi"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 60
+    },
+    "description": {
+      "type": "string",
+      "required": false,
+      "maxLength": 200
+    },
+    "info": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 0
+    },
+    "date-period": {
+      "type": "string",
+      "enum": [
+        "hour",
+        "day",
+        "week",
+        "month",
+        "quarter"
+      ]
+    },
+    "data-source": {
+      "type": "object",
+      "required": true,
+      "properties": {
+        "data-group": {
+          "type": "string",
+          "required": true
+        },
+        "data-type": {
+          "type": "string",
+          "required": true
+        },
+        "query-params": {
+          "$ref": "#/definitions/query-params",
+          "required": false
+        }
+      }
+    },
+    "value-attribute": {
+      "type": "string"
+    },
+    "classes": {
+      "type": ["array", "string"]
+    },
+    "modules": {
+      "type": ["array"]
+    },
+    "format": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "number",
+                "currency",
+                "percent"
+              ]
+            },
+            "magnitude": {
+              "type": "boolean"
+            },
+            "sigfigs": {
+              "type": "number"
+            },
+            "pence": {
+              "type": "boolean"
+            },
+            "dps": {
+              "type": "number"
+            }
+          }
+        },
+        {
+          "type": "string",
+          "enum": [
+            "number",
+            "currency"
+          ]
+        }
+      ]
+    }
+  },
+  "definitions": {
+    "query-params": {
+      "type": "object",
+      "properties": {
+        "period": {
+          "allOf": [
+            { "required": false },
+            {
+              "type": "string",
+              "enum": [
+                "hour",
+                "day",
+                "week",
+                "month",
+                "quarter"
+              ]
+            }
+          ]
+        },
+        "start_at": {
+          "type": "string",
+          "required": false
+        },
+        "end_at": {
+          "type": "string",
+          "required": false
+        },
+        "duration": {
+          "type": "integer",
+          "required": false
+        },
+        "sort_by": {
+          "type": "string",
+          "required": false
+        },
+        "group_by": {
+          "oneOf": [
+            {
+              "type": "string",
+              "required": false
+            },
+            {
+              "type": "array",
+              "required": false,
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "collect": {
+          "type": "array",
+          "required": false,
+          "items": {
+            "type": "string",
+            "pattern": ":(sum|mean|set)$"
+          }
+        },
+        "filter_by": {
+          "type": "array",
+          "required": false,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
