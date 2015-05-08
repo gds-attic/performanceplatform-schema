@@ -1,0 +1,126 @@
+{
+  "id": "/Realtime",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "maxLength": 60,
+      "pattern": "^[-a-z0-9]+$"
+    },
+    "module-type": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "realtime"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 60
+    },
+    "description": {
+      "type": "string",
+      "required": false,
+      "maxLength": 200
+    },
+    "info": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 0
+    },
+    "data-source": {
+      "type": "object",
+      "required": true,
+      "properties": {
+        "data-group": {
+          "type": "string",
+          "required": true
+        },
+        "data-type": {
+          "type": "string",
+          "required": true
+        },
+        "query-params": {
+          "$ref": "#/definitions/query-params",
+          "required": false
+        }
+      }
+    },
+    "modules": {
+      "type": ["array"]
+    }
+  },
+  "definitions": {
+    "query-params": {
+      "type": "object",
+      "properties": {
+        "period": {
+          "allOf": [
+            { "required": false },
+            {
+              "type": "string",
+              "enum": [
+                "hour",
+                "day",
+                "week",
+                "month",
+                "quarter"
+              ]
+            }
+          ]
+        },
+        "start_at": {
+          "type": "string",
+          "required": false
+        },
+        "end_at": {
+          "type": "string",
+          "required": false
+        },
+        "duration": {
+          "type": "integer",
+          "required": false
+        },
+        "sort_by": {
+          "type": "string",
+          "required": false
+        },
+        "group_by": {
+          "oneOf": [
+            {
+              "type": "string",
+              "required": false
+            },
+            {
+              "type": "array",
+              "required": false,
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "collect": {
+          "type": "array",
+          "required": false,
+          "items": {
+            "type": "string",
+            "pattern": ":(sum|mean|set)$"
+          }
+        },
+        "filter_by": {
+          "type": "array",
+          "required": false,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

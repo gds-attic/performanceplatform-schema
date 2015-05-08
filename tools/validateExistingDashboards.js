@@ -3,7 +3,10 @@ var validator = require('is-my-json-valid');
 var validateDashboard = validator(require('../schema/dashboard.json'));
 var Q = require('q');
 var failed = false;
-var knownSchemas = {'kpi': true};
+var knownSchemas = {
+  'kpi': true,
+  'realtime': true
+};
 
 Dashboard.getAllSlugs().then(function (listOfSlugs) {
   var allDashboards = [];
